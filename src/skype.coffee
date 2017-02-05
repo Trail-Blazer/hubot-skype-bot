@@ -38,8 +38,10 @@ class Skype extends Adapter
 
     _sendMsg: (context, msg) ->
         # TODO: add, and test support for rooms ...
-        target = context.user.id
-        target = context.user.room if context.user.room isnt @botID
+        if context.user?
+            target = context.user.id
+            target = context.user.room if context.user.room isnt @botID
+        else target = context.room
         @botService.send(target, msg, true, (err) =>
             @robot.logger.error("hubot-skype-bot: error sending message : ", err) if err?
         )
